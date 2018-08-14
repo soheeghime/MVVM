@@ -35,5 +35,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        addButton.setOnClickListener{
+            Log.e("VR", "------ onclick")
+            model.addFruit()
+        }
     }
 }
