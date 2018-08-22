@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import rx.Observable
+import io.reactivex.Observable
 import java.util.ArrayList
 
 class MainViewModel : ViewModel() {
@@ -42,7 +42,7 @@ class MainViewModel : ViewModel() {
             subscriber.onNext("안녕하세요")
             subscriber.onNext("반갑습니다")
             subscriber.onNext("종료하겠습니다")
-            subscriber.onCompleted()
+            subscriber.onComplete()
         } catch (e: Exception) {
             subscriber.onError(e)
         }
@@ -51,7 +51,7 @@ class MainViewModel : ViewModel() {
     var subject2 = Observable.create<String> { subscriber ->
         try {
             subscriber.onNext("---1111----싱글입니")
-            subscriber.onCompleted()
+            subscriber.onComplete()
         } catch (e: Exception) {
             subscriber.onError(e)
         }
@@ -64,7 +64,7 @@ class MainViewModel : ViewModel() {
 
         var strList: ArrayList<String>? = fruitList.value
 
-        Observable.from(strList).filter{it == "Plums"}
+        Observable.fromIterable(strList).filter{it == "Plums"}
 
                 .concatWith(subject2).subscribe({text ->
                     Log.d("RX", "------- CONCAT  onNext : $text")
