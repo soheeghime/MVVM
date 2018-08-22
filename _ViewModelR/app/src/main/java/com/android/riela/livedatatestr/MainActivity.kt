@@ -9,13 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
+import rx.Observable
 
 class MainActivity : AppCompatActivity() {
 
     private val viewFactory: ViewModelProvider.Factory = object: ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(MainActivityViewModel::class.java!!)) {
-                MainActivityViewModel() as T
+            return if (modelClass.isAssignableFrom(MainViewModel::class.java!!)) {
+                MainViewModel() as T
             } else {
                 modelClass.getConstructor(Application::class.java).newInstance(this@MainActivity)
             }
@@ -26,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var model = ViewModelProvider(this, viewFactory).get(MainActivityViewModel::class.java)
+        var model = ViewModelProvider(this, viewFactory).get(MainViewModel::class.java)
         var li = model.getFruitList()
         li.observe(this, Observer{
             it?.let{
-                var adap = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, it)
+                var adap = MainAdapter(this, it)
                 list.adapter = adap
             }
         })
@@ -39,5 +40,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("VR", "------ onclick")
             model.addFruit()
         }
+
+        model.create()
     }
 }
