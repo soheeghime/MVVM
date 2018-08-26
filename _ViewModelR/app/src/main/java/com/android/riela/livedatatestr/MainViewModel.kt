@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
-import java.util.ArrayList
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -13,7 +13,8 @@ class MainViewModel : ViewModel() {
 
     fun getFruitList(): LiveData<ArrayList<String>> {
         if (fruitList.value == null){
-            loadFruits()
+            loadRandomLists()
+            //loadFruits()
         }
         return fruitList
     }
@@ -28,6 +29,17 @@ class MainViewModel : ViewModel() {
         fruitsString.add("Plums")
 
         fruitList.value = fruitsString
+    }
+
+    private fun loadRandomLists() {
+        val random = Random()
+        val items = ArrayList<String>()
+        for (i in 1..100) {
+            var r = random.nextFloat() * 1000
+            items.add(r.toString())
+        }
+
+        fruitList.value = items
     }
 
     fun addFruit(){
