@@ -3,11 +3,11 @@ package com.android.riela.livedatatestr
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,8 +30,9 @@ class MainActivity : AppCompatActivity() {
         var li = model.getFruitList()
         li.observe(this, Observer{
             it?.let{
-                var adap = MainAdapter(this, it)
-                list.adapter = adap
+                var adap = RecyclerAdapter(this, it)
+                rList.adapter = adap
+                rList.layoutManager = LinearLayoutManager(baseContext)
             }
         })
 
@@ -40,6 +41,6 @@ class MainActivity : AppCompatActivity() {
             model.addFruit()
         }
 
-        model.create()
+//        model.create()
     }
 }
