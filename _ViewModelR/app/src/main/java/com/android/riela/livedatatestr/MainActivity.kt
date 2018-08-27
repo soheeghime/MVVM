@@ -3,14 +3,17 @@ package com.android.riela.livedatatestr
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var model: MainViewModel
 
     private val viewFactory: ViewModelProvider.Factory = object: ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -26,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var model = ViewModelProvider(this, viewFactory).get(MainViewModel::class.java)
+        model = ViewModelProvider(this, viewFactory).get(MainViewModel::class.java)
         var li = model.getFruitList()
         li.observe(this, Observer{
             it?.let{
@@ -42,5 +45,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         model.create()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindViewModel()
+    }
+
+    private fun bindViewModel() {
+        var mSubscription = CompositeDisposable()
+        mSubscription.add(model.getSubjectTest1().subscribe{
+            Log.e("VR", "------ [bindViewModel]  SUBJECT subscribe    1: $it")
+        })
+
+        mSubscription.add(model.getLoadingIndicatorVisibility().subscribe { it ->
+            Log.e("VR", "------ [bindViewModel]  LOADING subscribe    : $it")
+            setLoadingIndicatorVisibility(it)
+        })
+    }
+
+    private fun setLoadingIndicatorVisibility(isVisible:Boolean){
+        Log.e("VR", "------ [setLoadingIndicatorVisibility]  isVisible    : $isVisible")
+        if(isVisible){
+            loading_progress.visibility = View.VISIBLE
+        }else{
+            loading_progress.visibility = View.GONE
+        }
     }
 }

@@ -6,6 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/loading_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/gray"
+        android:text="loading"
+        android:textSize="30dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rList"
         android:layout_width="match_parent"
@@ -13,12 +23,14 @@
         app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/addButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ADD fruit!"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
