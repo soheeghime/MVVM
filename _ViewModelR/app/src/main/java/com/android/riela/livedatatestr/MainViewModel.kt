@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
     private fun loadRandomLists() {
         val random = Random()
         val items = ArrayList<String>()
-        for (i in 1..100) {
+        for (i in 1..10000) {
             var r = random.nextFloat() * 1000
             items.add(r.toString())
         }
@@ -44,7 +44,7 @@ class MainViewModel : ViewModel() {
 
     fun addFruit(){
         var strList: ArrayList<String>? = fruitList.value
-        strList?.add("MELON!!!!")
+        strList?.add(0, "MELON!!!!")
 
         fruitList.value = strList
     }
@@ -77,7 +77,6 @@ class MainViewModel : ViewModel() {
         var strList: ArrayList<String>? = fruitList.value
 
         Observable.fromIterable(strList).filter{it == "Plums"}
-
                 .concatWith(subject2).subscribe({text ->
                     Log.d("RX", "------- CONCAT  onNext : $text")
 

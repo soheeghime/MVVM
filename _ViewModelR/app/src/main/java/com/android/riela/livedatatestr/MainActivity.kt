@@ -41,6 +41,6 @@ class MainActivity : AppCompatActivity() {
             model.addFruit()
         }
 
-//        model.create()
+        model.create()
     }
 }
